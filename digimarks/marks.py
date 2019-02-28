@@ -30,21 +30,6 @@ DATABASE = {
 #PHANTOM = '/usr/local/bin/phantomjs'
 #SCRIPT = os.path.join(APP_ROOT, 'screenshot.js')
 
-# create our flask app and a database wrapper
-app = Flask(__name__)
-app.config.from_object(__name__)
-database = SqliteDatabase(os.path.join(APP_ROOT, 'bookmarks.db'))
-
-# Strip unnecessary whitespace due to jinja2 codeblocks
-app.jinja_env.trim_blocks = True
-app.jinja_env.lstrip_blocks = True
-
-# set custom url for the app, for example '/bookmarks'
-try:
-    app.config['APPLICATION_ROOT'] = settings.APPLICATION_ROOT
-except AttributeError:
-    pass
-
 # Cache the tags
 all_tags = {}
 usersettings = {}
@@ -640,6 +625,7 @@ def findmissingfavicons(systemkey):
 
 
 # Initialisation == create the bookmark, user and public tag tables if they do not exist
+# TODO: move to __init__.py
 Bookmark.create_table(True)
 User.create_table(True)
 PublicTag.create_table(True)
@@ -650,8 +636,3 @@ for user in users:
     all_tags[user.key] = get_tags_for_user(user.key)
     usersettings[user.key] = {'theme': user.theme}
     print(user.key)
-
-# Run when called standalone
-if __name__ == '__main__':
-    # run the application
-    app.run(host='0.0.0.0', port=9999, debug=True)
