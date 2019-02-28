@@ -8,7 +8,10 @@ from flask import (Flask, abort, jsonify, redirect, render_template, request,
                    url_for)
 from werkzeug.contrib.atom import AtomFeed
 
-DIGIMARKS_USER_AGENT = 'digimarks/1.2.0-dev'
+from . import themes
+from .models import Bookmark, PublicTag, User, urljoin, get_tags_for_user
+
+DIGIMARKS_USER_AGENT = 'digimarks/2.0.0-dev'
 
 try:
     import settings
@@ -58,9 +61,9 @@ def get_cached_tags(userkey):
 def get_theme(userkey):
     try:
         usertheme = usersettings[userkey]['theme']
-        return themes[usertheme]
+        return themes.themes[usertheme]
     except KeyError:
-        return themes[DEFAULT_THEME]  # default
+        return themes.themes[themes.DEFAULT_THEME]  # default
 
 
 def make_external(url):
@@ -81,14 +84,14 @@ def _find_bookmarks(userkey, filter_text):
 
 @app.errorhandler(404)
 def page_not_found(e):
-    theme = themes[DEFAULT_THEME]
+    theme = themes.themes[themes.DEFAULT_THEME]
     return render_template('404.html', error=e, theme=theme), 404
 
 
 @app.route('/')
 def index():
     """ Homepage, point visitors to project page """
-    theme = themes[DEFAULT_THEME]
+    theme = themes.themes[themes.DEFAULT_THEME]
     return render_template('index.html', theme=theme)
 
 
@@ -487,7 +490,7 @@ def publictag_page(tagkey):
     #this_tag = get_object_or_404(PublicTag.select().where(PublicTag.tagkey == tagkey))
     try:
         this_tag, bookmarks = get_publictag(tagkey)
-        theme = themes[DEFAULT_THEME]
+        theme = themes.themes[themes.DEFAULT_THEME]
         return render_template(
             'publicbookmarks.html',
             bookmarks=bookmarks,

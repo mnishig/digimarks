@@ -87,7 +87,7 @@ class User(BaseModel):
     """ User account """
     username = CharField()
     key = CharField()
-    theme = CharField(default=DEFAULT_THEME)
+    theme = CharField(default=themes.DEFAULT_THEME)
     created_date = DateTimeField(default=datetime.datetime.now)
 
     def generate_key(self):
