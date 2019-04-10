@@ -5,10 +5,11 @@ https://packaging.python.org/en/latest/distributing.html
 https://github.com/pypa/sampleproject
 """
 
-from setuptools import setup
 # To use a consistent encoding
 from codecs import open as codecopen
 from os import path
+
+from setuptools import setup
 
 here = path.abspath(path.dirname(__file__))
 
@@ -18,7 +19,8 @@ with codecopen(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='digimarks', # pip install digimarks
-    description='Simple bookmarking service, using a SQLite database to store bookmarks, supporting tags, automatic title fetching and REST API calls.',
+    description='Simple bookmarking service, using a SQLite database to store bookmarks, supporting tags, automatic '
+                'title fetching and REST API calls.',
     #long_description=open('README.md', 'rt').read(),
     long_description=long_description,
 
@@ -35,7 +37,7 @@ setup(
 
     # as a practice no need to hard code version unless you know program wont
     # work unless the specific versions are used
-    install_requires=['Flask', 'Peewee', 'Flask-Peewee', 'requests', 'bs4'],
+    install_requires=['Flask', 'Peewee', 'requests', 'bs4'],
 
     py_modules=['digimarks'],
 
