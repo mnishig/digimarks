@@ -22,7 +22,7 @@ def create_app(test_config=None):
     # set custom url for the app, for example '/bookmarks'
     try:
         # TODO: get settings from ENV vars
-        app.config['APPLICATION_ROOT'] = settings.APPLICATION_ROOT
+        app.config['APPLICATION_ROOT'] = os.environ['APPLICATION_ROOT']
     except AttributeError:
         pass
 

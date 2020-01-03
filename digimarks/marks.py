@@ -3,13 +3,13 @@ from __future__ import print_function
 import datetime
 import os
 import sys
+from urllib.parse import urljoin
 
-from flask import (Flask, abort, jsonify, redirect, render_template, request,
-                   url_for)
+from flask import abort, jsonify, redirect, render_template, request, url_for
 from werkzeug.contrib.atom import AtomFeed
 
 from . import themes
-from .models import Bookmark, PublicTag, User, urljoin, get_tags_for_user
+from .models import Bookmark, PublicTag, User, get_tags_for_user
 
 DIGIMARKS_USER_AGENT = 'digimarks/2.0.0-dev'
 
@@ -29,6 +29,17 @@ DATABASE = {
 }
 #PHANTOM = '/usr/local/bin/phantomjs'
 #SCRIPT = os.path.join(APP_ROOT, 'screenshot.js')
+SYSTEMKEY = None
+try:
+    SYSTEMKEY = os.environ['SYSTEMKEY']
+except KeyError:
+    print('No ENV var found for SYSTEMKEY')
+
+MASHAPE_API_KEY = None
+try:
+    MASHAPE_API_KEY = os.environ['MASHAPE_API_KEY']
+except KeyError:
+    print('No ENV var found for MASHAPE_API_KEY')
 
 # Cache the tags
 all_tags = {}

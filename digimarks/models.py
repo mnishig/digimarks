@@ -5,20 +5,13 @@ import gzip
 import hashlib
 import os
 import shutil
+from urllib.parse import urlparse, urlunparse
 
 import bs4
 import requests
 from peewee import *  # noqa
 
 from . import themes
-
-try:
-    # Python 3
-    from urllib.parse import urljoin, urlparse, urlunparse
-except ImportError:
-    # Python 2
-    from urlparse import urljoin, urlparse, urlunparse
-
 
 DATABASE_PATH = os.path.dirname(os.path.realpath(__file__))
 if 'DIGIMARKS_DB_PATH' in os.environ:
@@ -199,7 +192,7 @@ class Bookmark(BaseModel):
         response = requests.get(
             'https://realfavicongenerator.p.rapidapi.com/favicon/icon?platform=android_chrome&site=' + domain,
             stream=True,
-            headers={'User-Agent': DIGIMARKS_USER_AGENT, 'X-Mashape-Key': settings.MASHAPE_API_KEY}
+            headers={'User-Agent': DIGIMARKS_USER_AGENT, 'X-Mashape-Key': MASHAPE_API_KEY}
         )
         if response.status_code == 404:
             # Fall back to desktop favicon
