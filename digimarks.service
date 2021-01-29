@@ -1,0 +1,25 @@
+
+[Unit]
+Description=digimarks
+
+[Service]
+Environment=FOLDER=/home/dietpi
+Environment=SCRIPT=digimarks-go.sh
+Environment="PATH=/home/dietpi/digimarks/p3/bin"
+
+User=dietpi
+Group=dietpi
+WorkingDirectory=/home/dietpi/digimarks
+ExecStart=/home/dietpi/digimarks/p3/bin/uwsgi --ini /home/dietpi/digimarks/uwsgi.ini:digimarks
+ExecStop=/home/dietpi/digimarks/p3/bin/uwsgi --stop /home/dietpi/digimarks/run.pid
+
+#ExecStart=sh '/home/dietpi/digimarks-go.sh'
+#ExecStart=
+#ExecStop=
+#Restart=yes
+
+#Type=simple
+Type=notify
+
+[Install]
+WantedBy=multi-user.target
